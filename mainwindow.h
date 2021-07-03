@@ -21,16 +21,16 @@ private:
     Ui::MainWindow* ui;
     PolySynth*      synth;
     // a
-    double          a_lower = 0;
+    double          a_lower = 0.000001;
     double          a_upper = 2;
     // d
-    double          d_lower = 0;
+    double          d_lower = 0.000001;
     double          d_upper = 2;
     // s
-    double          s_lower = 0;
+    double          s_lower = 0.000001;
     double          s_upper = 1;
     // r
-    double          r_lower = 0;
+    double          r_lower = 0.000001;
     double          r_upper = 2;
 private:
     virtual void keyPressEvent(QKeyEvent *event) override;

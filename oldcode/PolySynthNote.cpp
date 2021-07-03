@@ -63,7 +63,7 @@ void PolySynthNote::applyADSR()
 	case ADSR::R:
 		seconds_sustained = (double)samples_sustained / (double)SAMPLE_RATE;
 		t = (seconds_passed - (seconds_sustained + adsr_settings.attack + adsr_settings.decay)) / adsr_settings.release;
-		if (t >= 1) {
+        if (t >= 1) {
 			adsr_phase = ADSR::DONE;
 			break;
 		}

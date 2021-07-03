@@ -112,6 +112,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event){
 
 void MainWindow::keyReleaseEvent(QKeyEvent *event)
 {
+    if(event->isAutoRepeat()){return;}
     synth->stopTone(event->key());
 }
 #define DIAL_MAX 500.0

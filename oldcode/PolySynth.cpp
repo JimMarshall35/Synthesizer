@@ -147,10 +147,10 @@ void PolySynth::test_setup_oscillators()
 	//d2.phase_offset = TABLE_SIZE / 2;
 	oscillators_state.push_back(d2);
 
-    adsr_state.attack  = 0.0;
-    adsr_state.decay   = 0.0;
-    adsr_state.sustain = 0.0;
-    adsr_state.release = 0.0;
+    adsr_state.attack  = 0.000001;
+    adsr_state.decay   = 0.000001;
+    adsr_state.sustain = 0.000001;
+    adsr_state.release = 0.000001;
 }
 
 #include "timer.h"
