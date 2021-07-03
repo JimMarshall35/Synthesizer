@@ -34,7 +34,7 @@ private:
     double          r_upper = 2;
 private:
     virtual void keyPressEvent(QKeyEvent *event) override;
-    virtual void keyReleaseEvent(QKeyEvent *event);
+    virtual void keyReleaseEvent(QKeyEvent *event) override;
 private slots:
     void adsrChanged(int val);
 };

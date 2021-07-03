@@ -47,48 +47,49 @@ MainWindow::~MainWindow()
 void MainWindow::keyPressEvent(QKeyEvent *event){
     if(event->isAutoRepeat()){return;}
     float* thisoctave = octaves[onOctave];
-    switch(event->key()){
+    int key = event->key();
+    switch(key){
 
     // white keys
     case Qt::Key_A:
-        synth->startTone(thisoctave[C], Qt::Key_A);
+        synth->startTone(thisoctave[C], key);
         break;
     case Qt::Key_S:
-        synth->startTone(thisoctave[D], Qt::Key_S);
+        synth->startTone(thisoctave[D], key);
         break;
     case Qt::Key_D:
-        synth->startTone(thisoctave[E], Qt::Key_D);
+        synth->startTone(thisoctave[E], key);
         break;
     case Qt::Key_F:
-        synth->startTone(thisoctave[F], Qt::Key_F);
+        synth->startTone(thisoctave[F], key);
         break;
     case Qt::Key_G:
-        synth->startTone(thisoctave[G], Qt::Key_G);
+        synth->startTone(thisoctave[G], key);
         break;
     case Qt::Key_H:
-        synth->startTone(thisoctave[A], Qt::Key_H);
+        synth->startTone(thisoctave[A], key);
         break;
     case Qt::Key_J:
-        synth->startTone(thisoctave[B], Qt::Key_J);
+        synth->startTone(thisoctave[B], key);
         break;
     case Qt::Key_K:
-        synth->startTone(thisoctave[HC], Qt::Key_K);
+        synth->startTone(thisoctave[HC], key);
         break;
     ///////////////////////////////////////////////// black keys
     case Qt::Key_W:
-        synth->startTone(thisoctave[CS], Qt::Key_W);
+        synth->startTone(thisoctave[CS], key);
         break;
     case Qt::Key_E:
-        synth->startTone(thisoctave[DS], Qt::Key_E);
+        synth->startTone(thisoctave[DS], key);
         break;
     case Qt::Key_T:
-        synth->startTone(thisoctave[FS], Qt::Key_T);
+        synth->startTone(thisoctave[FS], key);
         break;
     case Qt::Key_Y:
-        synth->startTone(thisoctave[GS], Qt::Key_Y);
+        synth->startTone(thisoctave[GS], key);
         break;
     case Qt::Key_U:
-        synth->startTone(thisoctave[AS], Qt::Key_U);
+        synth->startTone(thisoctave[AS], key);
         break;
     ///////////////////////////////////////////////// change octave keys
     case Qt::Key_Z:
@@ -114,6 +115,7 @@ void MainWindow::keyReleaseEvent(QKeyEvent *event)
 {
     if(event->isAutoRepeat()){return;}
     synth->stopTone(event->key());
+    synth->cleanupNotes();
 }
 #define DIAL_MAX 500.0
 void MainWindow::adsrChanged(int val){

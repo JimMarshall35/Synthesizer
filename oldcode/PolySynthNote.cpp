@@ -31,12 +31,13 @@ float PolySynthNote::getNext()
 
 void PolySynthNote::applyADSR()
 {
-	double t, seconds_sustained;
+    double t, seconds_until_release;
 	samples++;
 	double seconds_passed = (double)samples / (double)SAMPLE_RATE;
 	switch (adsr_phase)
 	{
 	case ADSR::A:
+        samples_attacked++;
 		if (seconds_passed > adsr_settings.attack) {
 			adsr_phase = ADSR::D;
 			gain = 1.0;
@@ -47,6 +48,7 @@ void PolySynthNote::applyADSR()
 		lastgain = gain;
 		break;
 	case ADSR::D:
+        samples_decayed++;
 		if (seconds_passed > adsr_settings.attack + adsr_settings.decay) {
 			adsr_phase = ADSR::S;
 			gain = adsr_settings.sustain;
@@ -58,11 +60,13 @@ void PolySynthNote::applyADSR()
 		lastgain = gain;
 		break;
     case ADSR::S:
-		samples_sustained++;
+        samples_sustained++;
+        lastgain = gain;
 		break;
 	case ADSR::R:
-		seconds_sustained = (double)samples_sustained / (double)SAMPLE_RATE;
-		t = (seconds_passed - (seconds_sustained + adsr_settings.attack + adsr_settings.decay)) / adsr_settings.release;
+        seconds_until_release = (double)(samples_sustained+samples_attacked+samples_decayed) / (double)SAMPLE_RATE;
+
+        t = (seconds_passed - (seconds_until_release)) / adsr_settings.release;
         if (t >= 1) {
 			adsr_phase = ADSR::DONE;
 			break;

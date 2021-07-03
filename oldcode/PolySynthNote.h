@@ -40,7 +40,9 @@ private:
 	long unsigned int                samples = 0;
 	ADSR                             adsr_phase = ADSR::A;
 	ADSR_Settings                    adsr_settings;
-	long unsigned int                samples_sustained = 0;
+    long unsigned int                samples_sustained = 0;
+    long unsigned int                samples_attacked = 0;
+    long unsigned int                samples_decayed = 0;
 private:
 	void                             applyADSR();
 	
