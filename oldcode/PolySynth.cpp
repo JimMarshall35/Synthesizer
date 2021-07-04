@@ -137,20 +137,24 @@ void PolySynth::removeNote(PolySynthNote * n)
 
 void PolySynth::test_setup_oscillators()
 {
-	OscillatorDescription d, d2;
-	d.amplitude = 0.15;
-	d.shape     = WAVESHAPE::SINE;
+    OscillatorDescription d, d2, d3;
+
+    d.amplitude = 0.0;
+    d.shape     = WAVESHAPE::SQUARE50;
 	oscillators_state.push_back(d);
 
-	d2.amplitude = 0.05;
-	d2.shape     = WAVESHAPE::SQUARE25;
-	//d2.phase_offset = TABLE_SIZE / 2;
+    d2.amplitude = 0.0;
+    d2.shape     = WAVESHAPE::SQUARE50;
 	oscillators_state.push_back(d2);
 
-    adsr_state.attack  = 0.000001;
-    adsr_state.decay   = 0.000001;
-    adsr_state.sustain = 0.000001;
-    adsr_state.release = 0.000001;
+    d3.amplitude = 0.0;
+    d3.shape     = WAVESHAPE::SQUARE50;
+    oscillators_state.push_back(d3);
+
+    adsr_state.attack  = 0.001;
+    adsr_state.decay   = 0.001;
+    adsr_state.sustain = 0.001;
+    adsr_state.release = 0.001;
 }
 
 #include "timer.h"

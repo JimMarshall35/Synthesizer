@@ -18,6 +18,8 @@ struct OscillatorDescription {
 	WAVESHAPE shape;
 	float     amplitude;
 	float     phase_offset = 0;
+    bool      active = false;
+    float     detune = 0;
 };
 class PolySynth
 {
@@ -25,26 +27,28 @@ public:
 	friend class PolySynthNote;
 	PolySynth();
 	~PolySynth();
-	bool open(PaDeviceIndex index);
-	bool close();
-	bool start();
-	bool stop();
-	void startTone(float freq, int key);
-	void stopTone(int key);
-	void clearOscillators() { notes.clear(); }
-	OscillatorDescription* getOscillatorsState(size_t& size) { 
+    bool                               open(PaDeviceIndex index);
+    bool                               close();
+    bool                               start();
+    bool                               stop();
+    void                               startTone(float freq, int key);
+    void                               stopTone(int key);
+    void                               clearOscillators() { notes.clear(); }
+    int                                getNumNotes(){return notes.size();}
+    ADSR_Settings                      getADSR_State() { return adsr_state; }
+    void                               cleanupNotes();
+    OscillatorDescription*             getOscillatorsState(size_t& size) {
 		size = oscillators_state.size();
 		return &oscillators_state[0]; 
 	}
-	ADSR_Settings getADSR_State() { return adsr_state; }
-	void cleanupNotes();
+public:
     ADSR_Settings                      adsr_state;
+    std::vector<OscillatorDescription> oscillators_state;
+
 private:
 	std::queue<PolySynthNote*>         notes2Remove;
 	void                               removeNote(PolySynthNote* n);
-
 	void                               test_setup_oscillators();
-	std::vector<OscillatorDescription> oscillators_state;
 	std::list<PolySynthNote>           notes;
 	void						       paStreamFinishedMethod() {}
 	static void                        paStreamFinished(void* userData) { return ((PolySynth*)userData)->paStreamFinishedMethod(); }

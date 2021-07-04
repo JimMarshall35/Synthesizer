@@ -23,6 +23,7 @@ WaveTableOscillator::~WaveTableOscillator()
 
 float WaveTableOscillator::getNext()
 {
+    if(!active){return 0.0f;}
 	double   integer_part,fraction;
 	/*
 		1. split left and righ phase into integer and fraction parts

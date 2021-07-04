@@ -8,7 +8,12 @@ PolySynthNote::PolySynthNote(PolySynth * synth, float freq, int k)
 	OscillatorDescription* descriptions = synth->getOscillatorsState(num_oscillators);
 	for (size_t i = 0; i < num_oscillators; i++) {
 		OscillatorDescription d = descriptions[i];
-		oscillators.push_back(WaveTableOscillator(freq, d.shape, d.amplitude, d.phase_offset));
+        WaveTableOscillator w = WaveTableOscillator(freq + d.detune, d.shape, d.amplitude, d.phase_offset);
+        if(d.active){
+             w.active = true;
+        }
+        oscillators.push_back(w);
+
 	}
 	adsr_settings = synth->getADSR_State();
 }
