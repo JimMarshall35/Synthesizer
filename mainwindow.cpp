@@ -57,7 +57,21 @@ void MainWindow::startSynth(){
         std::cout << "error" << std::endl;
     }
     else{
-        if (synth.open(Pa_GetDefaultOutputDevice())){
+        int apis = Pa_GetHostApiCount();
+        PaDeviceIndex index = Pa_GetDefaultOutputDevice();
+
+        for(int i=0; i<apis; i++){
+            const PaHostApiInfo* info = Pa_GetHostApiInfo(i);
+            if(i == index)
+                std::cout<< info->name << std::endl;
+            /*
+            if(i == Pa_HostApiTypeIdToHostApiIndex(paASIO)){
+                index = info->defaultOutputDevice;
+            }
+            */
+        }
+
+        if (synth.open(index)){
             synth.start();
         }
     }

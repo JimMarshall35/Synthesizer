@@ -14,27 +14,33 @@ enum class WAVESHAPE {
 class WaveTableOscillator
 {
 public:
-    explicit  WaveTableOscillator(float f, WAVESHAPE s);
-    explicit  WaveTableOscillator(float f, WAVESHAPE s, float amplitude, float phase_offset);
-              ~WaveTableOscillator();
-    float     getFreq() const { return freq; }
-    bool      operator==(WaveTableOscillator w) {
+    explicit    WaveTableOscillator(float f, WAVESHAPE s);
+    explicit    WaveTableOscillator(float f, WAVESHAPE s, float amplitude, float phase_offset);
+                ~WaveTableOscillator();
+    float       getFreq() const { return freq; }
+    bool        operator==(WaveTableOscillator w) {
 		return w.freq == freq;
 	}
-    float     getNext();
-    bool      active = false;
+    float       getNext();
+    bool        active = false;
+    static void initWaveTables();
 private:
-
 	WAVESHAPE shape = WAVESHAPE::NONE;
 	float     freq;
 	float     left_phase = 0;
 	float     right_phase = 0;
 	float     phase = 0;
 	float     amplitude = 0.25f;
-	float     table[TABLE_SIZE];
+    float*    table;
+    static float     sine[TABLE_SIZE];
+    static float     triangle[TABLE_SIZE];
+    static float     saw[TABLE_SIZE];
+    static float     square50[TABLE_SIZE];
+    static float     square25[TABLE_SIZE];
 private:
-    double    lerp(double v0, double v1, double t) { return v0 + t * (v1 - v0); }
-	void      initWaveTable();
+    double      lerp(double v0, double v1, double t) { return v0 + t * (v1 - v0); }
+    void        initWaveTable();
+
 	
 	
 };

@@ -1,9 +1,10 @@
 #include "PolySynth.h"
 #include <cstring>
-
+#include <iostream>
 PolySynth::PolySynth()
 {
 	test_setup_oscillators();
+    WaveTableOscillator::initWaveTables();
 }
 
 
@@ -24,12 +25,14 @@ bool PolySynth::open(PaDeviceIndex index)
 	if (pInfo != 0)
 	{
 		printf("Output device name: '%s'\r", pInfo->name);
+        std::cout<<"host API " <<pInfo->hostApi <<std::endl;
 	}
 
 	outputParameters.channelCount = 2;       /* stereo output */
 	outputParameters.sampleFormat = paFloat32; /* 32 bit floating point output */
 	outputParameters.suggestedLatency = Pa_GetDeviceInfo(outputParameters.device)->defaultLowOutputLatency;
 	outputParameters.hostApiSpecificStreamInfo = NULL;
+    std::cout<< "host API count: " << Pa_GetHostApiCount() << std::endl;
 
 	PaError err = Pa_OpenStream(
 		&stream,

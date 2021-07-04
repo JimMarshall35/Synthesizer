@@ -12,7 +12,6 @@ a polyphonic synth class - Jim Marshall
 - public interface: startTone and StopTOne
 - sets up port audio stream for itself with open, close, start, stop 
 */
-
 class PolySynthNote;
 struct OscillatorDescription {
 	WAVESHAPE shape;
