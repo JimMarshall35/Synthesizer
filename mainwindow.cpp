@@ -37,6 +37,19 @@ void MainWindow::populateControlsMap(){
     controls_map.insert(std::pair<std::string,OscillatorDescription*>("o3_slider",      o_ptr));
     controls_map.insert(std::pair<std::string,OscillatorDescription*>("o3_offset_dial", o_ptr));
     controls_map.insert(std::pair<std::string,OscillatorDescription*>("o3_detune_dial", o_ptr));
+
+    using namespace std;
+    lcd_map.insert(pair<string,string>("o1_slider","o1_slider_lcd"));
+    lcd_map.insert(pair<string,string>("o1_offset_dial","o1_offset_lcd"));
+    lcd_map.insert(pair<string,string>("o1_detune_dial","o1_detune_lcd"));
+
+    lcd_map.insert(pair<string,string>("o2_slider","o2_slider_lcd"));
+    lcd_map.insert(pair<string,string>("o2_offset_dial","o2_offset_lcd"));
+    lcd_map.insert(pair<string,string>("o2_detune_dial","o2_detune_lcd"));
+
+    lcd_map.insert(pair<string,string>("o3_slider","o3_slider_lcd"));
+    lcd_map.insert(pair<string,string>("o3_offset_dial","o3_offset_lcd"));
+    lcd_map.insert(pair<string,string>("o3_detune_dial","o3_detune_lcd"));
 }
 void MainWindow::startSynth(){
     ScopedPaHandler paInit;
@@ -56,10 +69,7 @@ void MainWindow::setupWidgets(){
     QDial* r_dial = this->findChild<QDial*>("release_dial");
 
 
-    QObject::connect(a_dial,SIGNAL(valueChanged(int)), this, SLOT(adsrChanged(int)));
-    QObject::connect(d_dial,SIGNAL(valueChanged(int)), this, SLOT(adsrChanged(int)));
-    QObject::connect(s_dial,SIGNAL(valueChanged(int)), this, SLOT(adsrChanged(int)));
-    QObject::connect(r_dial,SIGNAL(valueChanged(int)), this, SLOT(adsrChanged(int)));
+
 
     QList<QComboBox*> boxes = this->findChildren<QComboBox*>();
     for (int i = 0; i < boxes.size(); ++i) {
@@ -87,6 +97,15 @@ void MainWindow::setupWidgets(){
     QDial* o2_detune_dial = this->findChild<QDial*>("o2_detune_dial");
     QDial* o3_detune_dial = this->findChild<QDial*>("o3_detune_dial");
 
+    QDial* o1_offset_dial = this->findChild<QDial*>("o1_offset_dial");
+    QDial* o2_offset_dial = this->findChild<QDial*>("o2_offset_dial");
+    QDial* o3_offset_dial = this->findChild<QDial*>("o3_offset_dial");
+
+    QObject::connect(a_dial,SIGNAL(valueChanged(int)), this, SLOT(adsrChanged(int)));
+    QObject::connect(d_dial,SIGNAL(valueChanged(int)), this, SLOT(adsrChanged(int)));
+    QObject::connect(s_dial,SIGNAL(valueChanged(int)), this, SLOT(adsrChanged(int)));
+    QObject::connect(r_dial,SIGNAL(valueChanged(int)), this, SLOT(adsrChanged(int)));
+
     QObject::connect(o1_cb,SIGNAL(stateChanged(int)),this,SLOT(enabledOscillatorsChanged(int)));
     QObject::connect(o2_cb,SIGNAL(stateChanged(int)),this,SLOT(enabledOscillatorsChanged(int)));
     QObject::connect(o3_cb,SIGNAL(stateChanged(int)),this,SLOT(enabledOscillatorsChanged(int)));
@@ -102,12 +121,15 @@ void MainWindow::setupWidgets(){
     QObject::connect(o1_detune_dial, SIGNAL(valueChanged(int)),this,SLOT(oscillatorDetuneChanged(int)));
     QObject::connect(o2_detune_dial, SIGNAL(valueChanged(int)),this,SLOT(oscillatorDetuneChanged(int)));
     QObject::connect(o3_detune_dial, SIGNAL(valueChanged(int)),this,SLOT(oscillatorDetuneChanged(int)));
+
+    QObject::connect(o1_offset_dial, SIGNAL(valueChanged(int)),this,SLOT(oscillatorPhaseChanged(int)));
+    QObject::connect(o2_offset_dial, SIGNAL(valueChanged(int)),this,SLOT(oscillatorPhaseChanged(int)));
+    QObject::connect(o3_offset_dial, SIGNAL(valueChanged(int)),this,SLOT(oscillatorPhaseChanged(int)));
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
-    synth.stop();
 }
 #include <QKeyEvent>
 void MainWindow::keyPressEvent(QKeyEvent *event){
@@ -183,7 +205,6 @@ void MainWindow::keyReleaseEvent(QKeyEvent *event)
     std::cout << synth.getNumNotes() << std::endl;
     if(event->isAutoRepeat()){return;}
     synth.stopTone(event->key());
-    //synth.cleanupNotes();
 }
 #define DIAL_MAX 500.0
 void MainWindow::adsrChanged(int val){
@@ -237,6 +258,8 @@ void MainWindow::oscillatorAmplitudeChanged(int val){
     double scaled = (double)val / (double)OSC_AMP_SLIDER_SIZE;
     OscillatorDescription* osc = controls_map[object_name];
     osc->amplitude = scaled;
+    auto lcd = this->findChild<QLCDNumber*>(lcd_map[object_name].c_str());
+    lcd->display(scaled);
 }
 void MainWindow::oscillatorShapeChanged(int index){
     synth.clearOscillators();
@@ -269,6 +292,8 @@ void MainWindow::oscillatorDetuneChanged(int val){
     std::string object_name = static_cast<std::string>((const char*)obj->objectName().toUtf8());
     OscillatorDescription* osc = controls_map[object_name];
     osc->detune = fraction*detune_magnitude;
+    auto lcd = this->findChild<QLCDNumber*>(lcd_map[object_name].c_str());
+    lcd->display(fraction*detune_magnitude);
 }
 void MainWindow::oscillatorPhaseChanged(int offset){
     QObject* obj = sender();
@@ -276,4 +301,6 @@ void MainWindow::oscillatorPhaseChanged(int offset){
     OscillatorDescription* osc = controls_map[object_name];
     float scaled = ((float)offset/(float)100) * (float)TABLE_SIZE;
     osc->phase_offset = scaled;
+    auto lcd = this->findChild<QLCDNumber*>(lcd_map[object_name].c_str());
+    lcd->display(scaled);
 }

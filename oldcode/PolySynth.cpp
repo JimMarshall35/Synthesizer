@@ -9,6 +9,7 @@ PolySynth::PolySynth()
 
 PolySynth::~PolySynth()
 {
+    stop();
 }
 bool PolySynth::open(PaDeviceIndex index)
 {
@@ -36,7 +37,7 @@ bool PolySynth::open(PaDeviceIndex index)
 		&outputParameters,
 		SAMPLE_RATE,
 		paFramesPerBufferUnspecified,
-		paClipOff,
+        paNoFlag,
 		&PolySynth::paCallback,
 		this            /* Using 'this' for userData so we can cast to PolySynth* in paCallback method */
 	);

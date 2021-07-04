@@ -56,5 +56,6 @@ private slots:
     void            oscillatorPhaseChanged(int offset);
 private:
     std::map<std::string,OscillatorDescription*> controls_map;
+    std::map<std::string,std::string>            lcd_map;
 };
 #endif // MAINWINDOW_H

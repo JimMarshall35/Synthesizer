@@ -41,6 +41,7 @@ public:
 		size = oscillators_state.size();
 		return &oscillators_state[0]; 
 	}
+
 public:
     ADSR_Settings                      adsr_state;
     std::vector<OscillatorDescription> oscillators_state;
