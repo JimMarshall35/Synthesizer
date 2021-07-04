@@ -9,7 +9,7 @@
 /*
 a polyphonic synth class - Jim Marshall
 
-- owns and manages a list of wavetable oscillators, public interface: startTone and StopTOne
+- public interface: startTone and StopTOne
 - sets up port audio stream for itself with open, close, start, stop 
 */
 
