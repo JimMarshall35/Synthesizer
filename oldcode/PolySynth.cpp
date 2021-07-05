@@ -122,6 +122,7 @@ void PolySynth::stopTone(int key)
 
 void PolySynth::cleanupNotes()
 {
+    std::queue<PolySynthNote*> notes2Remove;
 	for (auto& note : notes) {
 		if (note.getADSRPhase() == ADSR::DONE) {
 			notes2Remove.push(&note);

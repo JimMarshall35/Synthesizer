@@ -29,14 +29,14 @@ public:
 		adsr_phase = ADSR::R; 
 	}
 	ADSR getADSRPhase() { return adsr_phase; }
-	void restart() { gain = 0.0f, adsr_phase = ADSR::A, samples = 0, samples_sustained = 0; }
+    void restart() { gain = 0.0f, adsr_phase = ADSR::A, samples = 0, samples_sustained = 0, samples_attacked=0,samples_decayed=0; }
 private:
 	
 	float                            gain = 0.0f;
 	float                            lastgain = 0.0f;
 	PolySynth*                       synth;
 	std::vector<WaveTableOscillator> oscillators;
-	int                              key;                // keyboard VK_ code for the key that was pressed
+    int                              key;                // Qts cross platformr code for the key that was pressed
 	long unsigned int                samples = 0;
 	ADSR                             adsr_phase = ADSR::A;
 	ADSR_Settings                    adsr_settings;

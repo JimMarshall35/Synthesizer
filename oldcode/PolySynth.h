@@ -46,8 +46,8 @@ public:
     std::vector<OscillatorDescription> oscillators_state;
 
 private:
-	std::queue<PolySynthNote*>         notes2Remove;
-	void                               removeNote(PolySynthNote* n);
+
+    void                               removeNote(PolySynthNote* n);
 	void                               test_setup_oscillators();
 	std::list<PolySynthNote>           notes;
 	void						       paStreamFinishedMethod() {}
