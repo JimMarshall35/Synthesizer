@@ -70,10 +70,11 @@ void Oscilloscope::update()
         float x_incr   = (float)view->width() / view_width_samples;
         path.moveTo(QPointF(x, 0.0));
         for(size_t i=0; i<view_width_samples; i++){
+            x += x_incr;
             float samp = l_samples[i];
             float y    = y_factor*samp;
             path.lineTo(x,y);
-            x += x_incr;
+
         }
         const QPen pen(Qt::black);
         scene->addPath(path,pen);
