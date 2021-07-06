@@ -2,9 +2,9 @@
 #include <iostream>
 
 
-float     WaveTableOscillator::sine[TABLE_SIZE];
+float     WaveTableOscillator::sine    [TABLE_SIZE];
 float     WaveTableOscillator::triangle[TABLE_SIZE];
-float     WaveTableOscillator::saw[TABLE_SIZE];
+float     WaveTableOscillator::saw     [TABLE_SIZE];
 float     WaveTableOscillator::square50[TABLE_SIZE];
 float     WaveTableOscillator::square25[TABLE_SIZE];
 

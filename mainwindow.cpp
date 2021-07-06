@@ -21,26 +21,28 @@ MainWindow::MainWindow(QWidget *parent)
 
 }
 void MainWindow::populateControlsMap(){
-    OscillatorDescription* o_ptr = &synth.oscillators_state[0];
-    controls_map.insert(std::pair<std::string,OscillatorDescription*>("o1_cb",          o_ptr));
-    controls_map.insert(std::pair<std::string,OscillatorDescription*>("o1_combo",       o_ptr));
-    controls_map.insert(std::pair<std::string,OscillatorDescription*>("o1_slider",      o_ptr));
-    controls_map.insert(std::pair<std::string,OscillatorDescription*>("o1_offset_dial", o_ptr));
-    controls_map.insert(std::pair<std::string,OscillatorDescription*>("o1_detune_dial", o_ptr));
-    o_ptr++;
-    controls_map.insert(std::pair<std::string,OscillatorDescription*>("o2_cb",          o_ptr));
-    controls_map.insert(std::pair<std::string,OscillatorDescription*>("o2_combo",       o_ptr));
-    controls_map.insert(std::pair<std::string,OscillatorDescription*>("o2_slider",      o_ptr));
-    controls_map.insert(std::pair<std::string,OscillatorDescription*>("o2_offset_dial", o_ptr));
-    controls_map.insert(std::pair<std::string,OscillatorDescription*>("o2_detune_dial", o_ptr));
-    o_ptr++;
-    controls_map.insert(std::pair<std::string,OscillatorDescription*>("o3_cb",          o_ptr));
-    controls_map.insert(std::pair<std::string,OscillatorDescription*>("o3_combo",       o_ptr));
-    controls_map.insert(std::pair<std::string,OscillatorDescription*>("o3_slider",      o_ptr));
-    controls_map.insert(std::pair<std::string,OscillatorDescription*>("o3_offset_dial", o_ptr));
-    controls_map.insert(std::pair<std::string,OscillatorDescription*>("o3_detune_dial", o_ptr));
-
     using namespace std;
+
+    OscillatorDescription* o_ptr = &synth.oscillators_state[0];
+    controls_map.insert(pair<string,OscillatorDescription*>("o1_cb",          o_ptr));
+    controls_map.insert(pair<string,OscillatorDescription*>("o1_combo",       o_ptr));
+    controls_map.insert(pair<string,OscillatorDescription*>("o1_slider",      o_ptr));
+    controls_map.insert(pair<string,OscillatorDescription*>("o1_offset_dial", o_ptr));
+    controls_map.insert(pair<string,OscillatorDescription*>("o1_detune_dial", o_ptr));
+    o_ptr++;
+    controls_map.insert(pair<string,OscillatorDescription*>("o2_cb",          o_ptr));
+    controls_map.insert(pair<string,OscillatorDescription*>("o2_combo",       o_ptr));
+    controls_map.insert(pair<string,OscillatorDescription*>("o2_slider",      o_ptr));
+    controls_map.insert(pair<string,OscillatorDescription*>("o2_offset_dial", o_ptr));
+    controls_map.insert(pair<string,OscillatorDescription*>("o2_detune_dial", o_ptr));
+    o_ptr++;
+    controls_map.insert(pair<string,OscillatorDescription*>("o3_cb",          o_ptr));
+    controls_map.insert(pair<string,OscillatorDescription*>("o3_combo",       o_ptr));
+    controls_map.insert(pair<string,OscillatorDescription*>("o3_slider",      o_ptr));
+    controls_map.insert(pair<string,OscillatorDescription*>("o3_offset_dial", o_ptr));
+    controls_map.insert(pair<string,OscillatorDescription*>("o3_detune_dial", o_ptr));
+
+
     lcd_map.insert(pair<string,string>("o1_slider","o1_slider_lcd"));
     lcd_map.insert(pair<string,string>("o1_offset_dial","o1_offset_lcd"));
     lcd_map.insert(pair<string,string>("o1_detune_dial","o1_detune_lcd"));
