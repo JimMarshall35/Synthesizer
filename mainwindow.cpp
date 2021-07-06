@@ -15,7 +15,9 @@ MainWindow::MainWindow(QWidget *parent)
     startSynth();
     setupWidgets();
     populateControlsMap();
+    scope.init(ui->scope_view);
 
+    synth.setOscilloscope(&scope);
 
 }
 void MainWindow::populateControlsMap(){
@@ -77,13 +79,6 @@ void MainWindow::startSynth(){
     }
 }
 void MainWindow::setupWidgets(){
-    QDial* a_dial = this->findChild<QDial*>("attack_dial");
-    QDial* d_dial = this->findChild<QDial*>("decay_dial");
-    QDial* s_dial = this->findChild<QDial*>("sustain_dial");
-    QDial* r_dial = this->findChild<QDial*>("release_dial");
-
-
-
 
     QList<QComboBox*> boxes = this->findChildren<QComboBox*>();
     for (int i = 0; i < boxes.size(); ++i) {
@@ -95,50 +90,32 @@ void MainWindow::setupWidgets(){
         box->insertItem(4,"saw");
     }
 
-    QCheckBox* o1_cb     = this->findChild<QCheckBox*>("o1_cb");
-    QSlider*   o1_slider = this->findChild<QSlider*  >("o1_slider");
-    QComboBox* o1_combo  = this->findChild<QComboBox*>("o1_combo");
+    QObject::connect(ui->attack_dial,SIGNAL(valueChanged(int)), this, SLOT(adsrChanged(int)));
+    QObject::connect(ui->decay_dial,SIGNAL(valueChanged(int)), this, SLOT(adsrChanged(int)));
+    QObject::connect(ui->sustain_dial,SIGNAL(valueChanged(int)), this, SLOT(adsrChanged(int)));
+    QObject::connect(ui->release_dial,SIGNAL(valueChanged(int)), this, SLOT(adsrChanged(int)));
 
-    QCheckBox* o2_cb     = this->findChild<QCheckBox*>("o2_cb");
-    QSlider*   o2_slider = this->findChild<QSlider*  >("o2_slider");
-    QComboBox* o2_combo  = this->findChild<QComboBox*>("o2_combo");
+    QObject::connect(ui->o1_cb,SIGNAL(stateChanged(int)),this,SLOT(enabledOscillatorsChanged(int)));
+    QObject::connect(ui->o2_cb,SIGNAL(stateChanged(int)),this,SLOT(enabledOscillatorsChanged(int)));
+    QObject::connect(ui->o3_cb,SIGNAL(stateChanged(int)),this,SLOT(enabledOscillatorsChanged(int)));
 
-    QCheckBox* o3_cb     = this->findChild<QCheckBox*>("o3_cb");
-    QSlider*   o3_slider = this->findChild<QSlider*  >("o3_slider");
-    QComboBox* o3_combo  = this->findChild<QComboBox*>("o3_combo");
+    QObject::connect(ui->o1_slider,SIGNAL(valueChanged(int)),this,SLOT(oscillatorAmplitudeChanged(int)));
+    QObject::connect(ui->o2_slider,SIGNAL(valueChanged(int)),this,SLOT(oscillatorAmplitudeChanged(int)));
+    QObject::connect(ui->o3_slider,SIGNAL(valueChanged(int)),this,SLOT(oscillatorAmplitudeChanged(int)));
 
-    QDial* o1_detune_dial = this->findChild<QDial*>("o1_detune_dial");
-    QDial* o2_detune_dial = this->findChild<QDial*>("o2_detune_dial");
-    QDial* o3_detune_dial = this->findChild<QDial*>("o3_detune_dial");
+    QObject::connect(ui->o1_combo,SIGNAL(currentIndexChanged(int)),this,SLOT(oscillatorShapeChanged(int)));
+    QObject::connect(ui->o2_combo,SIGNAL(currentIndexChanged(int)),this,SLOT(oscillatorShapeChanged(int)));
+    QObject::connect(ui->o3_combo,SIGNAL(currentIndexChanged(int)),this,SLOT(oscillatorShapeChanged(int)));
 
-    QDial* o1_offset_dial = this->findChild<QDial*>("o1_offset_dial");
-    QDial* o2_offset_dial = this->findChild<QDial*>("o2_offset_dial");
-    QDial* o3_offset_dial = this->findChild<QDial*>("o3_offset_dial");
+    QObject::connect(ui->o1_detune_dial, SIGNAL(valueChanged(int)),this,SLOT(oscillatorDetuneChanged(int)));
+    QObject::connect(ui->o2_detune_dial, SIGNAL(valueChanged(int)),this,SLOT(oscillatorDetuneChanged(int)));
+    QObject::connect(ui->o3_detune_dial, SIGNAL(valueChanged(int)),this,SLOT(oscillatorDetuneChanged(int)));
 
-    QObject::connect(a_dial,SIGNAL(valueChanged(int)), this, SLOT(adsrChanged(int)));
-    QObject::connect(d_dial,SIGNAL(valueChanged(int)), this, SLOT(adsrChanged(int)));
-    QObject::connect(s_dial,SIGNAL(valueChanged(int)), this, SLOT(adsrChanged(int)));
-    QObject::connect(r_dial,SIGNAL(valueChanged(int)), this, SLOT(adsrChanged(int)));
+    QObject::connect(ui->o1_offset_dial, SIGNAL(valueChanged(int)),this,SLOT(oscillatorPhaseChanged(int)));
+    QObject::connect(ui->o2_offset_dial, SIGNAL(valueChanged(int)),this,SLOT(oscillatorPhaseChanged(int)));
+    QObject::connect(ui->o3_offset_dial, SIGNAL(valueChanged(int)),this,SLOT(oscillatorPhaseChanged(int)));
 
-    QObject::connect(o1_cb,SIGNAL(stateChanged(int)),this,SLOT(enabledOscillatorsChanged(int)));
-    QObject::connect(o2_cb,SIGNAL(stateChanged(int)),this,SLOT(enabledOscillatorsChanged(int)));
-    QObject::connect(o3_cb,SIGNAL(stateChanged(int)),this,SLOT(enabledOscillatorsChanged(int)));
-
-    QObject::connect(o1_slider,SIGNAL(valueChanged(int)),this,SLOT(oscillatorAmplitudeChanged(int)));
-    QObject::connect(o2_slider,SIGNAL(valueChanged(int)),this,SLOT(oscillatorAmplitudeChanged(int)));
-    QObject::connect(o3_slider,SIGNAL(valueChanged(int)),this,SLOT(oscillatorAmplitudeChanged(int)));
-
-    QObject::connect(o1_combo,SIGNAL(currentIndexChanged(int)),this,SLOT(oscillatorShapeChanged(int)));
-    QObject::connect(o2_combo,SIGNAL(currentIndexChanged(int)),this,SLOT(oscillatorShapeChanged(int)));
-    QObject::connect(o3_combo,SIGNAL(currentIndexChanged(int)),this,SLOT(oscillatorShapeChanged(int)));
-
-    QObject::connect(o1_detune_dial, SIGNAL(valueChanged(int)),this,SLOT(oscillatorDetuneChanged(int)));
-    QObject::connect(o2_detune_dial, SIGNAL(valueChanged(int)),this,SLOT(oscillatorDetuneChanged(int)));
-    QObject::connect(o3_detune_dial, SIGNAL(valueChanged(int)),this,SLOT(oscillatorDetuneChanged(int)));
-
-    QObject::connect(o1_offset_dial, SIGNAL(valueChanged(int)),this,SLOT(oscillatorPhaseChanged(int)));
-    QObject::connect(o2_offset_dial, SIGNAL(valueChanged(int)),this,SLOT(oscillatorPhaseChanged(int)));
-    QObject::connect(o3_offset_dial, SIGNAL(valueChanged(int)),this,SLOT(oscillatorPhaseChanged(int)));
+    QObject::connect(ui->scope_trigger_dial, SIGNAL(valueChanged(int)),this,SLOT(scopeTriggerChanged(int)));
 }
 
 MainWindow::~MainWindow()
@@ -219,6 +196,19 @@ void MainWindow::keyReleaseEvent(QKeyEvent *event)
     std::cout << synth.getNumNotes() << std::endl;
     if(event->isAutoRepeat()){return;}
     synth.stopTone(event->key());
+}
+
+bool MainWindow::eventFilter(QObject *o, QEvent *e)
+{
+    if (o == ui->scope_view)
+    {
+
+        if(e->type() == QEvent::Wheel){
+            QWheelEvent *q = dynamic_cast<QWheelEvent*>(e);
+            q->accept();
+            return true;
+        }
+    }
 }
 #define DIAL_MAX 500.0
 void MainWindow::adsrChanged(int val){
@@ -317,4 +307,11 @@ void MainWindow::oscillatorPhaseChanged(int offset){
     osc->phase_offset = scaled;
     auto lcd = this->findChild<QLCDNumber*>(lcd_map[object_name].c_str());
     lcd->display(scaled);
+}
+
+void MainWindow::scopeTriggerChanged(int val)
+{
+    float scaled = (float)val/100.0f;
+    scope.trigger = scaled;
+    ui->scope_trigger_lcd->display(scaled);
 }

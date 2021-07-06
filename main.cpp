@@ -11,6 +11,7 @@ int main(int argc, char *argv[])
     while(true){
         a.processEvents();
         w.synth.cleanupNotes();
+        w.scope.update();
     }
     return 0;
 }

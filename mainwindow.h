@@ -2,8 +2,10 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QGraphicsScene>
 #include "oldcode/PolySynth.h"
 #include <map>
+#include "Oscilloscope.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -17,7 +19,9 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
     PolySynth       synth;
+    Oscilloscope    scope;
 private:
+
     int             onOctave = 3;
     Ui::MainWindow* ui;
 
@@ -47,6 +51,7 @@ private:
 private:
     virtual void    keyPressEvent(QKeyEvent *event) override;
     virtual void    keyReleaseEvent(QKeyEvent *event) override;
+    virtual bool 	eventFilter(QObject *watched, QEvent *event) override;
 private slots:
     void            adsrChanged(int val);
     void            enabledOscillatorsChanged(int b);
@@ -54,6 +59,7 @@ private slots:
     void            oscillatorShapeChanged(int index);
     void            oscillatorDetuneChanged(int val);
     void            oscillatorPhaseChanged(int offset);
+    void            scopeTriggerChanged(int val);
 private:
     std::map<std::string,OscillatorDescription*> controls_map;
     std::map<std::string,std::string>            lcd_map;

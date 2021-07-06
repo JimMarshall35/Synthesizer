@@ -1,6 +1,7 @@
 #include "PolySynth.h"
 #include <cstring>
 #include <iostream>
+#include "Oscilloscope.h"
 PolySynth::PolySynth()
 {
 	test_setup_oscillators();
@@ -191,6 +192,9 @@ int PolySynth::paCallbackMethod(const void * inputBuffer, void * outputBuffer, u
 
 			
 		}
+        if(scope != nullptr){
+            scope->pushLSample(l_val);
+        }
 		*out++ = l_val;
 		*out++ = r_val;
 	}

@@ -6,6 +6,7 @@
 #include <vector>
 #include "PolySynthNote.h"
 #include <queue>
+class Oscilloscope;
 /*
 a polyphonic synth class - Jim Marshall
 
@@ -36,6 +37,7 @@ public:
     int                                getNumNotes(){return notes.size();}
     ADSR_Settings                      getADSR_State() { return adsr_state; }
     void                               cleanupNotes();
+    void                               setOscilloscope(Oscilloscope* p){scope = p;}
     OscillatorDescription*             getOscillatorsState(size_t& size) {
 		size = oscillators_state.size();
 		return &oscillators_state[0]; 
@@ -44,7 +46,7 @@ public:
 public:
     ADSR_Settings                      adsr_state;
     std::vector<OscillatorDescription> oscillators_state;
-
+    Oscilloscope*                      scope = nullptr;
 private:
 
     void                               removeNote(PolySynthNote* n);
