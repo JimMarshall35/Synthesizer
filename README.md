@@ -9,7 +9,6 @@ to do:
 - add filters
 - add master volume
 - add effects - delay, reverb, chorus, distortion
-- make oscilloscope Qt widget - DONE
 - MIDI input
 - add the ability to load in samples as wavetables
 - LFO's
