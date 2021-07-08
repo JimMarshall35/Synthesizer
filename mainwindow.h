@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QGraphicsScene>
+#include <QLCDNumber>
 #include "oldcode/PolySynth.h"
 #include <map>
 #include "Oscilloscope.h"
@@ -62,6 +63,6 @@ private slots:
     void            scopeTriggerChanged(int val);
 private:
     std::map<std::string,OscillatorDescription*> controls_map;
-    std::map<std::string,std::string>            lcd_map;
+    std::map<std::string,QLCDNumber*>            lcd_map;
 };
 #endif // MAINWINDOW_H

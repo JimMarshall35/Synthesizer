@@ -30,6 +30,8 @@ private:
     std::vector<float> r_samples;
     QGraphicsView*     view;
     QGraphicsScene*    scene;
+private:
+    void               drawNewData();
 };
 
 #endif // OSCILLOSCOPE_H

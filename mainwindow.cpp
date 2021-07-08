@@ -43,17 +43,17 @@ void MainWindow::populateControlsMap(){
     controls_map.insert(pair<string,OscillatorDescription*>("o3_detune_dial", o_ptr));
 
 
-    lcd_map.insert(pair<string,string>("o1_slider","o1_slider_lcd"));
-    lcd_map.insert(pair<string,string>("o1_offset_dial","o1_offset_lcd"));
-    lcd_map.insert(pair<string,string>("o1_detune_dial","o1_detune_lcd"));
+    lcd_map.insert(pair<string,QLCDNumber*>("o1_slider",ui->o1_slider_lcd));
+    lcd_map.insert(pair<string,QLCDNumber*>("o1_offset_dial",ui->o1_offset_lcd));
+    lcd_map.insert(pair<string,QLCDNumber*>("o1_detune_dial",ui->o1_detune_lcd));
 
-    lcd_map.insert(pair<string,string>("o2_slider","o2_slider_lcd"));
-    lcd_map.insert(pair<string,string>("o2_offset_dial","o2_offset_lcd"));
-    lcd_map.insert(pair<string,string>("o2_detune_dial","o2_detune_lcd"));
+    lcd_map.insert(pair<string,QLCDNumber*>("o2_slider",ui->o2_slider_lcd));
+    lcd_map.insert(pair<string,QLCDNumber*>("o2_offset_dial",ui->o2_offset_lcd));
+    lcd_map.insert(pair<string,QLCDNumber*>("o2_detune_dial",ui->o2_detune_lcd));
 
-    lcd_map.insert(pair<string,string>("o3_slider","o3_slider_lcd"));
-    lcd_map.insert(pair<string,string>("o3_offset_dial","o3_offset_lcd"));
-    lcd_map.insert(pair<string,string>("o3_detune_dial","o3_detune_lcd"));
+    lcd_map.insert(pair<string,QLCDNumber*>("o3_slider",ui->o3_slider_lcd));
+    lcd_map.insert(pair<string,QLCDNumber*>("o3_offset_dial",ui->o3_offset_lcd));
+    lcd_map.insert(pair<string,QLCDNumber*>("o3_detune_dial",ui->o3_detune_lcd));
 }
 void MainWindow::startSynth(){
     ScopedPaHandler paInit;
@@ -221,22 +221,22 @@ void MainWindow::adsrChanged(int val){
     QLCDNumber* lcd = nullptr;
     if(object_name == "attack_dial"){
         scaled_val = a_lower + ((double)val / DIAL_MAX)*(a_upper-a_lower);
-        lcd = this->findChild<QLCDNumber*>("attack_lcd");
+        lcd = ui->attack_lcd;
         synth.adsr_state.attack = scaled_val;
     }
     else if(object_name == "decay_dial"){
         scaled_val = d_lower + ((double)val / DIAL_MAX)*(d_upper-d_lower);
-        lcd = this->findChild<QLCDNumber*>("decay_lcd");
+        lcd = ui->decay_lcd;
         synth.adsr_state.decay = scaled_val;
     }
     else if(object_name == "sustain_dial"){
         scaled_val = s_lower + ((double)val / DIAL_MAX)*(s_upper-s_lower);
-        lcd = this->findChild<QLCDNumber*>("sustain_lcd");
+        lcd = ui->sustain_lcd;
         synth.adsr_state.sustain = scaled_val;
     }
     else if(object_name == "release_dial"){
         scaled_val = r_lower + ((double)val / DIAL_MAX)*(r_upper-r_lower);
-        lcd = this->findChild<QLCDNumber*>("release_lcd");
+        lcd = ui->release_lcd;
         synth.adsr_state.release = scaled_val;
     }
     else{
@@ -264,7 +264,7 @@ void MainWindow::oscillatorAmplitudeChanged(int val){
     double scaled = (double)val / (double)OSC_AMP_SLIDER_SIZE;
     OscillatorDescription* osc = controls_map[object_name];
     osc->amplitude = scaled;
-    auto lcd = this->findChild<QLCDNumber*>(lcd_map[object_name].c_str());
+    auto lcd = lcd_map[object_name];
     lcd->display(scaled);
 }
 void MainWindow::oscillatorShapeChanged(int index){
@@ -298,7 +298,7 @@ void MainWindow::oscillatorDetuneChanged(int val){
     std::string object_name = static_cast<std::string>((const char*)obj->objectName().toUtf8());
     OscillatorDescription* osc = controls_map[object_name];
     osc->detune = fraction*detune_magnitude;
-    auto lcd = this->findChild<QLCDNumber*>(lcd_map[object_name].c_str());
+    auto lcd = lcd_map[object_name];
     lcd->display(fraction*detune_magnitude);
 }
 void MainWindow::oscillatorPhaseChanged(int offset){
@@ -307,7 +307,7 @@ void MainWindow::oscillatorPhaseChanged(int offset){
     OscillatorDescription* osc = controls_map[object_name];
     float scaled = ((float)offset/(float)100) * (float)TABLE_SIZE;
     osc->phase_offset = scaled;
-    auto lcd = this->findChild<QLCDNumber*>(lcd_map[object_name].c_str());
+    auto lcd = lcd_map[object_name];
     lcd->display(scaled);
 }
 

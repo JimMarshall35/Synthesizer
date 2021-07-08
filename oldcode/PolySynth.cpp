@@ -175,9 +175,7 @@ int PolySynth::paCallbackMethod(const void * inputBuffer, void * outputBuffer, u
 	float* out = (float*)outputBuffer;
 
 	memset(out, 0, framesPerBuffer*NUM_CHANNELS * sizeof(float));
-	
-	float max = 0;
-	
+		
 
 	for (size_t i = 0; i < framesPerBuffer; i++)
 	{

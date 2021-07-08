@@ -63,21 +63,26 @@ void Oscilloscope::pushRSample(float s)
 void Oscilloscope::update()
 {
     if(new_data_flag){
-        scene->clear();
-        QPainterPath path;
-        float x        =  view->width()/2.0f;
-        float y_factor = (float)view->height() / 2.0;
-        float x_incr   = (float)view->width() / view_width_samples;
-        path.moveTo(QPointF(x, 0.0));
-        for(size_t i=0; i<view_width_samples; i++){
-            x += x_incr;
-            float samp = l_samples[i];
-            float y    = y_factor*samp;
-            path.lineTo(x,y);
-
-        }
-        const QPen pen(Qt::black);
-        scene->addPath(path,pen);
+        drawNewData();
         new_data_flag = false;
     }
+}
+
+void Oscilloscope::drawNewData()
+{
+    scene->clear();
+    QPainterPath path;
+    float x        =  view->width()/2.0f;
+    float y_factor = (float)view->height() / 2.0;
+    float x_incr   = (float)view->width() / view_width_samples;
+    path.moveTo(QPointF(x, 0.0));
+    for(size_t i=0; i<view_width_samples; i++){
+        x += x_incr;
+        float samp = l_samples[i];
+        float y    = y_factor*samp;
+        path.lineTo(x,y);
+
+    }
+    const QPen pen(Qt::black);
+    scene->addPath(path,pen);
 }
