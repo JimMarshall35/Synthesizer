@@ -4,6 +4,7 @@
 - ADSR envelope
 - multiple detuneable oscillators
 - A Qt Creator project
+- Oscilloscope 
 
 to do:
 - add filters
